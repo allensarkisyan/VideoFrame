@@ -1,6 +1,6 @@
 /*!
-HTML5 - Video frame precision capturing
-Version: 0.0.2
+HTML5 - Video frame rate precision capturing
+Version: 0.0.3
 (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -35,54 +35,28 @@ var FrameRates = {
 	high: 60
 };
 
-VideoFrame.prototype = (function() {
-	var obj = {
-		get : function() {
-			var frame = (this.video.currentTime * this.frameRate).toPrecision(5);
-			if (this.obj.callback) { this.obj.callback(frame); }
-			return frame;
-		},
-		listen : function(tick) {
-			var _video = this;
-			_video.interval = setInterval(function() {
-				return _video.get();
-			}, (tick ? tick : 1000));
-		},
-		stopListen : function() {
-			var _video = this;
-			clearInterval(_video.interval);
-		}
-	};
-	for (var i in FrameRates) {
-		obj[i] = FrameRates[i];
-	}
-	return obj;
-}());
-
-
-// Without frame rates automatically chained
-// VideoFrame.prototype = {
-// 	get : function() {
-// 		var frame = (this.video.currentTime * this.frameRate).toPrecision(5);
-// 		if (this.obj.callback) { this.obj.callback(frame); }
-// 		return frame;
-// 	},
-// 	listen : function(tick) {
-// 		var _video = this;
-// 		_video.interval = setInterval(function() {
-// 			return _video.get();
-// 		}, (tick ? tick : 1000));
-// 	},
-// 	stopListen : function() {
-// 		var _video = this;
-// 		clearInterval(_video.interval);
-// 	}
-// };
-
+VideoFrame.prototype = {
+	get : function() {
+		var frame = (this.video.currentTime * this.frameRate).toPrecision(5);
+		if (this.obj.callback) { this.obj.callback(frame); }
+		return frame;
+	},
+	listen : function(tick) {
+		var _video = this;
+		_video.interval = setInterval(function() {
+			return _video.get();
+		}, (tick ? tick : 1000));
+	},
+	stopListen : function() {
+		var _video = this;
+		clearInterval(_video.interval);
+	},
+	fps : FrameRates
+};
 
 // Usage
 var video = new VideoFrame({
-	id : 'videoPlayer',
+	id : 'videoPlayer_html5_api',
 	frameRate: FrameRates.NTSC,
 	callback : function(response) {
 		console.log('callback response: ' + response);
