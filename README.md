@@ -1,7 +1,6 @@
-VideoFrame - HTML5 Video frame rate precision capturing
-Version: 0.0.3
-(c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
-==========
+## VideoFrame - HTML5 Video frame rate precision capturing - Version: 0.0.3
+### (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -19,7 +18,7 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 Properties
 ==========
 the FrameRates object - the industry standard video frame rates are defined here, these properties are also available with the fps object after the video has been defined.
-
+```javascript
 var FrameRates = {
   film: 24,
 	NTSC : 29.97,
@@ -30,34 +29,37 @@ var FrameRates = {
 	web: 30,
 	high: 60
 };
-
+```
 Methods
 ==========
 The methods available are get, listen, and stopListen.
-get() - Retrieves the current frame of the playing source.
-listen(tick) - The listen method gets the video frame every 1000 milliseconds, the tick argument over rides the default interval.
-stopListen() - Clears the interval.
+* get() - Retrieves the current frame of the playing source.
+* listen(tick) - The listen method gets the video frame every 1000 milliseconds, the tick argument over rides the default interval.
+* stopListen() - Clears the interval.
 
 
 Usage
 ==========
-Step 1: Declaration - Initial declaration is done with a configuration object.
-- The configuration object takes these properties: id, and frameRate. it also provides a callback method.
-where id is the id of the video element;
-frameRate defines the frame rate of the video source being played.
-callback defines a callback function that is called when a frame is captured.
+Step 1) Declaration - Initial declaration is done with a configuration object.
+> The configuration object takes these properties: id, and frameRate. it also provides a callback method.
+* id defines the video element;
+* frameRate defines the frame rate of the video source being played.
+* callback defines a callback function that is called when a frame is captured.
 
+```javascript
 var video = new VideoFrame({
-  id : 'videoPlayer_html5_api',
+  id : 'videoPlayer',
 	frameRate: FrameRates.NTSC,
 	callback : function(response) {
 		console.log('callback response: ' + response);
 	}
 });
- 
+```
 You may also initiate VideoFrame without a configuration object if you are certain you have a HTML5 video element on the page, and the video source frame rate is 24fps.
 
+```javascript
 var video = new VideoFrame();
+```
 
-Step 2: Usage - Retrieval of the current frame is done by calling the get method
-To receive the current frame, make a call to the video.get(); method, can't be simpler.
+Step 2) Usage - Retrieval of the current frame is done by calling the get method
+* To receive the current frame, make a call to the video.get(); method, can't be simpler.
