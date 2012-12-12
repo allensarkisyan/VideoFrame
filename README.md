@@ -36,7 +36,7 @@ var FrameRates = {
 
 Methods
 ==========
-The methods available are get, listen, and stopListen.
+The methods available are get, listen, stopListen, and toTime.
 * get() - Retrieves the current frame of the playing source.
 * listen(tick) - The listen method gets the video frame every 1000 milliseconds, the tick argument over rides the default interval.
 * stopListen() - Clears the interval.
@@ -52,13 +52,14 @@ Step 1) Declaration - Initial declaration is done with a configuration object.
 
 ```javascript
 var video = new VideoFrame({
-  id : 'videoPlayer',
+	id : 'videoPlayer',
 	frameRate: FrameRates.NTSC,
 	callback : function(response) {
 		console.log('callback response: ' + response);
 	}
 });
 ```
+
 You may also initiate VideoFrame without a configuration object if you are certain you have a HTML5 video element on the page, and the video source frame rate is 24fps.
 
 ```javascript
