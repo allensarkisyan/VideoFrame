@@ -1,4 +1,4 @@
-## VideoFrame - HTML5 Video frame rate precision capturing - Version: 0.0.6
+## VideoFrame - HTML5 Video frame rate precision capturing - Version: 0.0.7
 ### (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -53,7 +53,7 @@ Step 1) Declaration - Initial declaration is done with a configuration object.
 ```javascript
 var video = new VideoFrame({
 	id : 'videoPlayer',
-	frameRate: FrameRates.NTSC,
+	frameRate: FrameRates.film,
 	callback : function(response) {
 		console.log('callback response: ' + response);
 	}
