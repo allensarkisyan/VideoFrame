@@ -1,4 +1,4 @@
-## VideoFrame - HTML5 Video frame rate precision capturing - Version: 0.0.3
+## VideoFrame - HTML5 Video frame rate precision capturing - Version: 0.0.6
 ### (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -18,9 +18,10 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 Properties
 ==========
 the FrameRates object - the industry standard video frame rates are defined here, these properties are also available with the fps object after the video has been defined.
+
 ```javascript
 var FrameRates = {
-  film: 24,
+	film: 24,
 	NTSC : 29.97,
 	NTSC_Film: 23.98,
 	NTSC_HD : 59.94,
@@ -30,13 +31,16 @@ var FrameRates = {
 	high: 60
 };
 ```
+* frameRate - Returns the assigned frameRate
+* video - Returns the HTMLVideoElement.
+
 Methods
 ==========
 The methods available are get, listen, and stopListen.
 * get() - Retrieves the current frame of the playing source.
 * listen(tick) - The listen method gets the video frame every 1000 milliseconds, the tick argument over rides the default interval.
 * stopListen() - Clears the interval.
-
+* toTime() - Returns the current time value in hh:mm:ss format.
 
 Usage
 ==========
@@ -62,4 +66,5 @@ var video = new VideoFrame();
 ```
 
 Step 2) Usage - Retrieval of the current frame is done by calling the get method
-* To receive the current frame, make a call to the video.get(); method, can't be simpler.
+* To receive the current frame number, make a call to the video.get(); method, can't be simpler. - you may use your judgment when rounding the floating point remainder.
+* video.toTime() - Retrieves the current time in hh:mm:ss format;
