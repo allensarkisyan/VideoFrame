@@ -1,6 +1,6 @@
 /*!
 HTML5 - Video frame rate precision capturing
-Version: 0.0.9
+Version: 0.1.0
 (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -58,8 +58,8 @@ VideoFrame.prototype = {
 };
 
 VideoFrame.prototype.toTime = function(frames) {
-	var time = (!frames ? this.video.currentTime : frames), frameRate = this.frameRate;
-	var dt = (new Date()), format = 'hh:mm:ss' + (frames || frames === 0 ? ':ff' : '');
+	var time = (typeof frames !== 'number' ? this.video.currentTime : frames), frameRate = this.frameRate;
+	var dt = (new Date()), format = 'hh:mm:ss' + (typeof frames === 'number' ? ':ff' : '');
 	dt.setHours(0);
 	dt.setMinutes(0);
 	dt.setSeconds(0);
@@ -74,7 +74,7 @@ VideoFrame.prototype.toTime = function(frames) {
 			case "hh": return wrap(dt.getHours() < 13 ? dt.getHours() : (dt.getHours() - 12));
 			case "mm": return wrap(dt.getMinutes());
 			case "ss": return wrap(dt.getSeconds());
-			case "ff": return wrap(Math.floor(((time % 1) * frameRate).toFixed(3)));
+			case "ff": return wrap(Math.floor(((time % 1) * frameRate)));
 		}
 	});
 };
