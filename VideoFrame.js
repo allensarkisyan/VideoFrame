@@ -1,6 +1,6 @@
 /*!
 HTML5 - Video frame rate precision capturing
-Version: 0.0.8
+Version: 0.0.9
 (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,8 +23,8 @@ var VideoFrame = function(options) {
 		return new VideoFrame(arguments[0]);
 	}
 	this.obj = options || {};
-	this.frameRate = options.frameRate || 24;
-	this.video = document.getElementById(options.id) || document.getElementsByTagName('video')[0];
+	this.frameRate = this.obj.frameRate || 24;
+	this.video = document.getElementById(this.obj.id) || document.getElementsByTagName('video')[0];
 };
 
 var FrameRates = {
