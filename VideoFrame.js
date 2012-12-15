@@ -1,7 +1,12 @@
 /*!
 HTML5 - Video frame rate precision capturing
-Version: 0.1.0
+Version: 0.1.1
 (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
+
+Contributors:
+Allen Sarkisyan
+Paige Raynes
+Dan Jacinto
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -47,6 +52,7 @@ VideoFrame.prototype = {
 	listen : function(tick) {
 		var _video = this;
 		this.interval = setInterval(function() {
+			if (_video.video.paused || _video.video.ended) { return; }
 			return _video.get();
 		}, (tick ? tick : 1000));
 	},
