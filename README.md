@@ -1,4 +1,4 @@
-## VideoFrame - HTML5 Video frame rate precision capturing - Version: 0.1.1
+## VideoFrame - HTML5 Video frame rate precision capturing - Version: 0.1.2
 ### (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Contributors
@@ -50,6 +50,8 @@ The methods available are get, listen, stopListen, and toTime.
 * stopListen() - Clears the interval.
 * toTime() - Returns the current time value in hh:mm:ss format.
 * toSMPTE() - Returns the current time with frame count in the SMPTE time code format hh:mm:ss:ff
+* toSeconds(SMPTE) - Returns the current time value in seconds - Optional: Accepts a SMPTE time code for conversion to seconds.
+* toMilliseconds(SMPTE) - Returns the current time value in milliseconds - Optional: Accepts a SMPTE time code for conversion to milliseconds.
 
 Usage
 ==========
@@ -79,3 +81,5 @@ Step 2) Usage - Retrieval of the current frame is done by calling the get method
 * To receive the current frame number, make a call to the video.get(); method, can't be simpler. - you may use your judgment when rounding the floating point remainder.
 * video.toTime() - Retrieves the current time in hh:mm:ss format;
 * video.toSMPTE() - Retrieves the current time with frame count in the SMPTE time code format hh:mm:ss:ff
+* video.toSeconds() - Retrieves the current time in seconds - Optional: Accepts a SMPTE time code for conversion to seconds.
+* video.toMilliseconds() - Retrieves the current time in milliseconds - Optional: Accepts a SMPTE time code for conversion to milliseconds.
