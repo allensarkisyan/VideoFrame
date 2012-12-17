@@ -1,6 +1,6 @@
 /*!
 HTML5 - Video frame rate precision capturing
-Version: 0.1.2
+Version: 0.1.3
 (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Contributors:
@@ -90,7 +90,8 @@ VideoFrame.prototype.toSMPTE = function() {
 };
 
 VideoFrame.prototype.toSeconds = function(SMPTE) {
-	var time = (!SMPTE ? this.toSMPTE().split(':') : SMPTE.split(':'));
+	if (!SMPTE) { return Math.floor(this.video.currentTime); }
+	var time = SMPTE.split(':');
 	var hour = Number(time[0]);
 	var minutes = Number(time[1]);
 	var seconds = Number(time[2]);
