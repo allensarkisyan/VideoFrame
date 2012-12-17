@@ -1,11 +1,11 @@
-## VideoFrame - HTML5 Video frame rate precision capturing - Version: 0.1.4
+## VideoFrame - HTML5 Video frame rate precision capturing - Version: 0.1.5
 ### (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Contributors
 ==========
-* Allen Sarkisyan
-* Paige Raynes
-* Dan Jacinto
+* Allen Sarkisyan - Lead engineer
+* Paige Raynes - Frame rate to seconds lookup chart
+* Dan Jacinto - Time coded video assets
 
 License
 ==========
@@ -46,7 +46,7 @@ Methods
 ==========
 The methods available are get, listen, stopListen, and toTime.
 * get() - Retrieves the current frame of the playing source.
-* listen(tick) - The listen method gets the video frame every 1000 milliseconds, the tick argument over rides the default interval.
+* listen(format, tick) - The listen method requires the format parameter values include: (SMPTE, time, frame), the tick argument over rides the default interval set by the frame rate of the video.
 * stopListen() - Clears the interval.
 * toTime() - Returns the current time value in hh:mm:ss format.
 * toSMPTE() - Returns the current time with frame count in the SMPTE time code format hh:mm:ss:ff
@@ -62,7 +62,7 @@ Step 1) Declaration - Initial declaration is done with a configuration object.
 * callback defines a callback function that is called when a frame is captured.
 
 ```javascript
-var video = new VideoFrame({
+var video = VideoFrame({
 	id : 'videoPlayer',
 	frameRate: FrameRates.film,
 	callback : function(response) {
@@ -74,12 +74,13 @@ var video = new VideoFrame({
 You may also initiate VideoFrame without a configuration object if you are certain you have a HTML5 video element on the page, and the video source frame rate is 24fps.
 
 ```javascript
-var video = new VideoFrame();
+var video = VideoFrame();
 ```
 
 Step 2) Usage - Retrieval of the current frame is done by calling the get method
-* To receive the current frame number, make a call to the video.get(); method, can't be simpler. - you may use your judgment when rounding the floating point remainder.
+* video.get() - To receive the current frame number, can't be simpler. - you may use your judgment when rounding the floating point remainder.
 * video.toTime() - Retrieves the current time in hh:mm:ss format;
+* video.listen(format, tick) - Polls the current video, default interval set by the frame rate Optional: override with tick argument - the format argument is required accepted values are: (SMPTE, time, frame)
 * video.toSMPTE() - Retrieves the current time with frame count in the SMPTE time code format hh:mm:ss:ff
-* video.toSeconds() - Retrieves the current time in seconds - Optional: Accepts a SMPTE time code for conversion to seconds.
-* video.toMilliseconds() - Retrieves the current time in milliseconds - Optional: Accepts a SMPTE time code for conversion to milliseconds.
+* video.toSeconds(SMPTE) - Retrieves the current time in seconds - Optional: Accepts a SMPTE time code for conversion to seconds.
+* video.toMilliseconds(SMPTE) - Retrieves the current time in milliseconds - Optional: Accepts a SMPTE time code for conversion to milliseconds.
