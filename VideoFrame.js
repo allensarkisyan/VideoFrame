@@ -1,12 +1,10 @@
 /*!
 HTML5 - Video frame rate precision capturing
-Version: 0.1.5
+Version: 0.1.6
 (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Contributors:
 Allen Sarkisyan - Lead engineer
-Paige Raynes - Frame rate to seconds lookup chart
-Dan Jacinto - Time coded video assets
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -42,10 +40,8 @@ var FrameRates = {
 };
 
 VideoFrame.prototype = {
-	get : function(internal) {
-		var frame = (this.video.currentTime * this.frameRate).toPrecision(5);
-		if (this.obj.callback && !internal) { this.obj.callback(frame); }
-		return frame;
+	get : function() {
+		return (this.video.currentTime * this.frameRate).toPrecision(5);
 	},
 	listen : function(format, tick) {
 		var _video = this;
@@ -53,7 +49,7 @@ VideoFrame.prototype = {
 		this.interval = setInterval(function() {
 			if (_video.video.paused || _video.video.ended) { return; }
 			var frame = ((format === 'SMPTE') ? _video.toSMPTE() : ((format === 'time') ? _video.toTime() : _video.get()));
-			if (_video.obj.callback && format !== 'frame') { _video.obj.callback(frame); }
+			if (_video.obj.callback) { _video.obj.callback(frame, format); }
 			return frame;
 		}, (tick ? tick : 1000 / _video.frameRate));
 	},
@@ -91,4 +87,22 @@ VideoFrame.prototype.toSeconds = function(SMPTE) {
 
 VideoFrame.prototype.toMilliseconds = function(SMPTE) {
 	return (this.toSeconds(SMPTE) * 1000);
+};
+
+VideoFrame.prototype.__seek = function(direction, frames) {
+	if (!this.video.paused) { this.video.pause(); }
+	var frame = Number(this.get());
+	this.video.currentTime = ((((direction === 'backward' ? (frame - frames) : (frame + frames))) / this.frameRate) + 0.00001);
+};
+
+VideoFrame.prototype.seekForward = function(frames, callback) {
+	if (!frames) { frames = 1; }
+	this.__seek('forward', Number(frames));
+	return (callback ? callback() : true);
+};
+
+VideoFrame.prototype.seekBackward = function(frames, callback) {
+	if (!frames) { frames = 1; }
+	this.__seek('backward', Number(frames));
+	return (callback ? callback() : true);
 };
