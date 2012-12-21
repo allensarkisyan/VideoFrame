@@ -1,6 +1,6 @@
 /*!
 HTML5 - Video frame rate precision capturing
-Version: 0.1.6
+Version: 0.1.7
 (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Contributors:
@@ -41,7 +41,7 @@ var FrameRates = {
 
 VideoFrame.prototype = {
 	get : function() {
-		return (this.video.currentTime * this.frameRate).toPrecision(5);
+		return Math.floor(this.video.currentTime.toFixed(5) * this.frameRate);
 	},
 	listen : function(format, tick) {
 		var _video = this;
@@ -51,7 +51,7 @@ VideoFrame.prototype = {
 			var frame = ((format === 'SMPTE') ? _video.toSMPTE() : ((format === 'time') ? _video.toTime() : _video.get()));
 			if (_video.obj.callback) { _video.obj.callback(frame, format); }
 			return frame;
-		}, (tick ? tick : 1000 / _video.frameRate));
+		}, (tick ? tick : 1000 / _video.frameRate / 2));
 	},
 	stopListen : function() {
 		var _video = this;
@@ -87,6 +87,16 @@ VideoFrame.prototype.toSeconds = function(SMPTE) {
 
 VideoFrame.prototype.toMilliseconds = function(SMPTE) {
 	return (this.toSeconds(SMPTE) * 1000);
+};
+
+VideoFrame.prototype.toFrames = function(SMPTE) {
+	var time = (!SMPTE) ? this.toSMPTE().split(':') : SMPTE.split(':');
+	var frameRate = this.frameRate;
+	var hh = (((Number(time[0]) * 60) * 60) * frameRate);
+	var mm = ((Number(time[1]) * 60) * frameRate);
+	var ss = (Number(time[2]) * frameRate);
+	var ff = Number(time[3]);
+	return Math.floor((hh + mm + ss + ff));
 };
 
 VideoFrame.prototype.__seek = function(direction, frames) {
