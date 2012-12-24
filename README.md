@@ -1,4 +1,4 @@
-## VideoFrame - HTML5 Video frame rate precision capturing - Version: 0.1.7
+## VideoFrame - HTML5 Video frame rate precision capturing - Version: 0.1.8
 ### (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Contributors

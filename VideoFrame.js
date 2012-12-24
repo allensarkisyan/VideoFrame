@@ -1,6 +1,6 @@
 /*!
 HTML5 - Video frame rate precision capturing
-Version: 0.1.7
+Version: 0.1.8
 (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Contributors:
@@ -86,7 +86,9 @@ VideoFrame.prototype.toSeconds = function(SMPTE) {
 };
 
 VideoFrame.prototype.toMilliseconds = function(SMPTE) {
-	return (this.toSeconds(SMPTE) * 1000);
+	var frames = (!SMPTE) ? Number(this.toSMPTE().split(':')[3]) : Number(SMPTE.split(':')[3]);
+	var milliseconds = (1000 / this.frameRate) * frames;
+	return Math.floor(((this.toSeconds(SMPTE) * 1000) + milliseconds));
 };
 
 VideoFrame.prototype.toFrames = function(SMPTE) {
