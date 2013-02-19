@@ -1,5 +1,5 @@
 /*!
-HTML5 - Video frame rate precision capturing
+VideoFrame: HTML5 Video - SMTPE Time Code capturing and Frame Seeking API
 Version: 0.1.8
 (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
@@ -9,11 +9,12 @@ Allen Sarkisyan - Lead engineer
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished
-to do so, subject to the following conditions:
+to use, copy, modify, merge, publish, and/or distribute copies of the
+Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+- The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+- Attribution must be credited to the original authors in derivative works.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
