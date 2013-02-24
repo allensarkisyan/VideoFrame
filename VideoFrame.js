@@ -1,10 +1,12 @@
 /*!
 VideoFrame: HTML5 Video - SMTPE Time Code capturing and Frame Seeking API
-Version: 0.1.8
+Version: 0.1.9
 (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Contributors:
 Allen Sarkisyan - Lead engineer
+Paige Raynes - Product Development
+Dan Jacinto - Video Asset Quality Analyst
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -76,8 +78,17 @@ VideoFrame.prototype.toTime = function(frames) {
 	});
 };
 
-VideoFrame.prototype.toSMPTE = function() {
-	return this.toTime(this.video.currentTime);
+VideoFrame.prototype.toSMPTE = function(frame) {
+	if (!frame) { return this.toTime(this.video.currentTime); }
+	var frameNumber = Number(frame);
+	var fps = this.frameRate;
+	function wrap(n) { return ((n < 10) ? '0' + n : n); }
+	var _hour = ((fps * 60) * 60), _minute = (fps * 60);
+	var _hours = (frameNumber / _hour).toFixed(0);
+	var _minutes = (Number((frameNumber / _minute).toString().split('.')[0]) % 60);
+	var _seconds = (Number((frameNumber / fps).toString().split('.')[0]) % 60);
+	var SMPTE = (wrap(_hours) + ':' + wrap(_minutes) + ':' + wrap(_seconds) + ':' + wrap(frameNumber % fps));
+	return SMPTE;
 };
 
 VideoFrame.prototype.toSeconds = function(SMPTE) {

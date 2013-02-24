@@ -1,22 +1,23 @@
-## VideoFrame - HTML5 Video frame rate precision capturing - Version: 0.1.8
+## VideoFrame - HTML5 Video - SMTPE Time Code capturing and Frame Seeking API - Version: 0.1.9
 ### (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Contributors
 ==========
 * Allen Sarkisyan - Lead engineer
-* Paige Raynes - Frame rate to seconds lookup chart
-* Dan Jacinto - Time coded video assets
+* Paige Raynes - Product Development
+* Dan Jacinto - Video Asset Quality Analyst
 
 License
 ==========
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished
-to do so, subject to the following conditions:
+to use, copy, modify, merge, publish, and/or distribute copies of the
+Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+- The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+- Attribution must be credited to the original authors in derivative works.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
 OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
@@ -49,7 +50,7 @@ The methods available are get, listen, stopListen, and toTime.
 * listen(format, tick) - The listen method requires the format parameter values include: (SMPTE, time, frame), the tick argument over rides the default interval set by the frame rate of the video.
 * stopListen() - Clears the interval.
 * toTime() - Returns the current time value in hh:mm:ss format.
-* toSMPTE() - Returns the current time with frame count in the SMPTE time code format hh:mm:ss:ff
+* toSMPTE(frame) - Returns the current time with frame count in the SMPTE time code format hh:mm:ss:ff - Optional: Accepts a frame value for conversion to a SMPTE time code.
 * toSeconds(SMPTE) - Returns the current time value in seconds - Optional: Accepts a SMPTE time code for conversion to seconds.
 * toMilliseconds(SMPTE) - Returns the current time value in milliseconds - Optional: Accepts a SMPTE time code for conversion to milliseconds.
 * toFrames(SMPTE) - Returns the frame count from a SMPTE time code.
@@ -84,7 +85,7 @@ Step 2) Usage - Retrieval of the current frame is done by calling the get method
 * video.get() - To receive the current frame number, can't be simpler.
 * video.toTime() - Retrieves the current time in hh:mm:ss format;
 * video.listen(format, tick) - Polls the current video, default interval set by the frame rate Optional: override with tick argument - the format argument is required accepted values are: (SMPTE, time, frame)
-* video.toSMPTE() - Retrieves the current time with frame count in the SMPTE time code format hh:mm:ss:ff
+* video.toSMPTE(frame) - Retrieves the current time with frame count in the SMPTE time code format hh:mm:ss:ff
 * video.toSeconds(SMPTE) - Retrieves the current time in seconds - Optional: Accepts a SMPTE time code for conversion to seconds.
 * video.toMilliseconds(SMPTE) - Retrieves the current time in milliseconds - Optional: Accepts a SMPTE time code for conversion to milliseconds.
 * video.toFrames(SMPTE) - Returns the frame count from a SMPTE time code.
