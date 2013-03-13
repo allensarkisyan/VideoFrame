@@ -1,7 +1,9 @@
 /** @preserve
 VideoFrame: HTML5 Video - SMTPE Time Code capturing and Frame Seeking API
-Version: 0.2.0
-(c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
+@version 0.2.0
+@author Allen Sarkisyan
+@copyright (c) 2013 Allen Sarkisyan 
+@license Released under the Open Source MIT License
 
 Contributors:
 Allen Sarkisyan - Lead engineer
@@ -25,9 +27,8 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 */
 
 /**
- * Main VideoFrame Implementation
- * 
- * @constructor
+ * @class
+ * @classdesc Main VideoFrame Implementation.
  * @param {Object} options - Configuration object for initialization.
  */
 var VideoFrame = function(options) {
@@ -39,8 +40,17 @@ var VideoFrame = function(options) {
 
 /**
  * FrameRates - Industry standard frame rates
- * 
+ *
+ * @namespace
  * @type {Object}
+ * @property {Number} film - 24
+ * @property {Number} NTSC - 29.97
+ * @property {Number} NTSC_Film - 23.98
+ * @property {Number} NTSC_HD - 59.94
+ * @property {Number} PAL - 25
+ * @property {Number} PAL_HD - 50
+ * @property {Number} web - 30
+ * @property {Number} high - 60
  */
 var FrameRates = {
 	film: 24,
@@ -67,7 +77,7 @@ VideoFrame.prototype = {
 	 * 
 	 * @param  {String} format - Accepted formats are: SMPTE, time, frame
 	 * @param  {Number} tick - Number to set the interval by.
-	 * @return {Number} - Returns a value at a set interval
+	 * @return {Number} Returns a value at a set interval
 	 */
 	listen : function(format, tick) {
 		var _video = this;
@@ -92,7 +102,7 @@ VideoFrame.prototype = {
  * - used internally for conversion to SMPTE format.
  * 
  * @param  {Number} frames - The current time in the video
- * @return {String} - Returns the time code in the video
+ * @return {String} Returns the time code in the video
  */
 VideoFrame.prototype.toTime = function(frames) {
 	var time = (typeof frames !== 'number' ? this.video.currentTime : frames), frameRate = this.frameRate;
@@ -114,7 +124,7 @@ VideoFrame.prototype.toTime = function(frames) {
  * - Can be used as a conversion utility.
  * 
  * @param  {Number} frame - OPTIONAL: Frame number for conversion to it's equivalent SMPTE Time code.
- * @return {String} - Returns a SMPTE Time code in HH:MM:SS:FF format
+ * @return {String} Returns a SMPTE Time code in HH:MM:SS:FF format
  */
 VideoFrame.prototype.toSMPTE = function(frame) {
 	if (!frame) { return this.toTime(this.video.currentTime); }
@@ -133,7 +143,7 @@ VideoFrame.prototype.toSMPTE = function(frame) {
  * Converts a SMPTE Time code to Seconds
  * 
  * @param  {String} SMPTE - a SMPTE time code in HH:MM:SS:FF format
- * @return {Number} - Returns the Second count of a SMPTE Time code
+ * @return {Number} Returns the Second count of a SMPTE Time code
  */
 VideoFrame.prototype.toSeconds = function(SMPTE) {
 	if (!SMPTE) { return Math.floor(this.video.currentTime); }
