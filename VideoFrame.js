@@ -26,6 +26,8 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 /**
  * Main VideoFrame Implementation
+ * 
+ * @constructor
  * @param {Object} options - Configuration object for initialization.
  */
 var VideoFrame = function(options) {
@@ -37,6 +39,7 @@ var VideoFrame = function(options) {
 
 /**
  * FrameRates - Industry standard frame rates
+ * 
  * @type {Object}
  */
 var FrameRates = {
@@ -53,16 +56,18 @@ var FrameRates = {
 VideoFrame.prototype = {
 	/**
 	 * Returns the current frame number
-	 * @return {Number} Frame number in video
+	 * 
+	 * @return {Number} - Frame number in video
 	 */
 	get : function() {
 		return Math.floor(this.video.currentTime.toFixed(5) * this.frameRate);
 	},
 	/**
 	 * Event listener for handling callback execution at double the current frame rate interval
-	 * @param  {String} format Accepted formats are: SMPTE, time, frame
-	 * @param  {Number} tick Number to set the interval by.
-	 * @return {Number} Returns a value at a set interval
+	 * 
+	 * @param  {String} format - Accepted formats are: SMPTE, time, frame
+	 * @param  {Number} tick - Number to set the interval by.
+	 * @return {Number} - Returns a value at a set interval
 	 */
 	listen : function(format, tick) {
 		var _video = this;
@@ -74,9 +79,7 @@ VideoFrame.prototype = {
 			return frame;
 		}, (tick ? tick : 1000 / _video.frameRate / 2));
 	},
-	/**
-	 * Clears the current interval
-	 */
+	/** Clears the current interval */
 	stopListen : function() {
 		var _video = this;
 		clearInterval(_video.interval);
@@ -86,9 +89,10 @@ VideoFrame.prototype = {
 
 /**
  * Returns the current time code in the video in HH:MM:SS format
- * @param  {Number} frames The current time in the video,
- * used internally for conversion to SMPTE format.
- * @return {String}        Returns the time code in the video
+ * - used internally for conversion to SMPTE format.
+ * 
+ * @param  {Number} frames - The current time in the video
+ * @return {String} - Returns the time code in the video
  */
 VideoFrame.prototype.toTime = function(frames) {
 	var time = (typeof frames !== 'number' ? this.video.currentTime : frames), frameRate = this.frameRate;
@@ -108,8 +112,9 @@ VideoFrame.prototype.toTime = function(frames) {
 /**
  * Returns the current SMPTE Time code in the video.
  * - Can be used as a conversion utility.
- * @param  {Number} frame OPTIONAL: Frame number for conversion to it's equivalent SMPTE Time code.
- * @return {String} Returns a SMPTE Time code in HH:MM:SS:FF format
+ * 
+ * @param  {Number} frame - OPTIONAL: Frame number for conversion to it's equivalent SMPTE Time code.
+ * @return {String} - Returns a SMPTE Time code in HH:MM:SS:FF format
  */
 VideoFrame.prototype.toSMPTE = function(frame) {
 	if (!frame) { return this.toTime(this.video.currentTime); }
@@ -126,8 +131,9 @@ VideoFrame.prototype.toSMPTE = function(frame) {
 
 /**
  * Converts a SMPTE Time code to Seconds
- * @param  {String} SMPTE a SMPTE time code in HH:MM:SS:FF format
- * @return {Number}       Returns the Second count of a SMPTE Time code
+ * 
+ * @param  {String} SMPTE - a SMPTE time code in HH:MM:SS:FF format
+ * @return {Number} - Returns the Second count of a SMPTE Time code
  */
 VideoFrame.prototype.toSeconds = function(SMPTE) {
 	if (!SMPTE) { return Math.floor(this.video.currentTime); }
@@ -137,7 +143,8 @@ VideoFrame.prototype.toSeconds = function(SMPTE) {
 
 /**
  * Converts a SMPTE Time code to Milliseconds
- * @param  {String} SMPTE OPTIONAL: a SMPTE time code in HH:MM:SS:FF format
+ * 
+ * @param  {String} SMPTE - OPTIONAL: a SMPTE time code in HH:MM:SS:FF format
  * @return {Number} Returns the Millisecond count of a SMPTE Time code
  */
 VideoFrame.prototype.toMilliseconds = function(SMPTE) {
@@ -148,7 +155,8 @@ VideoFrame.prototype.toMilliseconds = function(SMPTE) {
 
 /**
  * Converts a SMPTE Time code to it's equivalent frame number
- * @param  {String} SMPTE OPTIONAL: a SMPTE time code in HH:MM:SS:FF format
+ * 
+ * @param  {String} SMPTE - OPTIONAL: a SMPTE time code in HH:MM:SS:FF format
  * @return {Number} Returns the long running video frame number
  */
 VideoFrame.prototype.toFrames = function(SMPTE) {
@@ -163,20 +171,22 @@ VideoFrame.prototype.toFrames = function(SMPTE) {
 
 /**
  * Private - seek method used internally for the seeking functionality.
- * @param  {String} direction Accepted Values are: forward, backward
- * @param  {Number} frames Number of frames to seek by.\
+ * 
+ * @param  {String} direction - Accepted Values are: forward, backward
+ * @param  {Number} frames - Number of frames to seek by.
  */
 VideoFrame.prototype.__seek = function(direction, frames) {
 	if (!this.video.paused) { this.video.pause(); }
 	var frame = Number(this.get());
-	/* To seek forward in the video, we must add 0.00001 to the video runtime for proper interactivity */
+	/** To seek forward in the video, we must add 0.00001 to the video runtime for proper interactivity */
 	this.video.currentTime = ((((direction === 'backward' ? (frame - frames) : (frame + frames))) / this.frameRate) + 0.00001);
 };
 
 /**
  * Seeks forward [X] amount of frames in the video.
- * @param  {Number}   frames   Number of frames to seek by.
- * @param  {Function} callback Callback function to execute once seeking is complete.
+ * 
+ * @param  {Number} frames - Number of frames to seek by.
+ * @param  {Function} callback - Callback function to execute once seeking is complete.
  */
 VideoFrame.prototype.seekForward = function(frames, callback) {
 	if (!frames) { frames = 1; }
@@ -186,8 +196,9 @@ VideoFrame.prototype.seekForward = function(frames, callback) {
 
 /**
  * Seeks backward [X] amount of frames in the video.
- * @param  {Number}   frames   Number of frames to seek by.
- * @param  {Function} callback Callback function to execute once seeking is complete.
+ * 
+ * @param  {Number} frames - Number of frames to seek by.
+ * @param  {Function} callback - Callback function to execute once seeking is complete.
  */
 VideoFrame.prototype.seekBackward = function(frames, callback) {
 	if (!frames) { frames = 1; }
