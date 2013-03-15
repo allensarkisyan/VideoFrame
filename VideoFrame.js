@@ -1,6 +1,6 @@
 /** @preserve
 VideoFrame: HTML5 Video - SMTPE Time Code capturing and Frame Seeking API
-@version 0.2.1
+@version 0.2.2
 @author Allen Sarkisyan
 @copyright (c) 2013 Allen Sarkisyan 
 @license Released under the Open Source MIT License
@@ -215,4 +215,41 @@ VideoFrame.prototype.seekBackward = function(frames, callback) {
 	if (!frames) { frames = 1; }
 	this.__seek('backward', Number(frames));
 	return (callback ? callback() : true);
+};
+
+/**
+ * For seeking to a certain SMPTE time code, standard time code, frame, second, or millisecond in the video.
+ * - Was previously deemed not feasible. Veni, vidi, vici.
+ *  
+ * @param  {Object} option - Configuration Object for seeking allowed keys are SMPTE, time, frame, seconds, and milliseconds
+ * example: { SMPTE: '00:01:12:22' }, { time: '00:01:12' },  { frame: 1750 }, { seconds: 72 }, { milliseconds: 72916 }
+ */
+VideoFrame.prototype.seekTo = function(config) {
+	var obj = config || {}, seekTime, SMPTE;
+	/** Only allow one option to be passed */
+	var option = Object.keys(obj)[0];
+
+	if (option == 'SMPTE' || option == 'time') {
+		SMPTE = obj[option];
+		seekTime = ((this.toMilliseconds(SMPTE) / 1000) + 0.001);
+		this.video.currentTime = seekTime;
+		return;
+	}
+
+	switch(option) {
+		case 'frame':
+			SMPTE = this.toSMPTE(obj[option]);
+			seekTime = ((this.toMilliseconds(SMPTE) / 1000) + 0.001);
+			break;
+		case 'seconds':
+			seekTime = Number(obj[option]);
+			break;
+		case 'milliseconds':
+			seekTime = ((Number(obj[option]) / 1000) + 0.001);
+			break;
+	}
+	
+	if (!isNaN(seekTime)) {
+		this.video.currentTime = seekTime;
+	}
 };

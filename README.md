@@ -1,4 +1,4 @@
-## VideoFrame - HTML5 Video - SMTPE Time Code capturing and Frame Seeking API - Version: 0.2.1
+## VideoFrame - HTML5 Video - SMTPE Time Code capturing and Frame Seeking API - Version: 0.2.2
 ### (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Contributors
@@ -56,6 +56,7 @@ The methods available are get, listen, stopListen, and toTime.
 * toFrames(SMPTE) - Returns the frame count from a SMPTE time code.
 * seekForward(frames) - Seeks forward the amount of frames declared by the frames parameter. Defaults to 1 frame.
 * seekBackward(frames) - Seeks backward the amount of frames declared by the frames parameter. Defaults to 1 frame.
+* seekTo(config) - Seeks to a certain SMPTE time code, standard time code, frame, second, or millisecond in the video. config example: { SMPTE: '00:01:12:22' }, { time: '00:01:12' },  { frame: 1750 }, { seconds: 72 }, { milliseconds: 72916 }
 
 Usage
 ==========
@@ -91,3 +92,4 @@ Step 2) Usage - Retrieval of the current frame is done by calling the get method
 * video.toFrames(SMPTE) - Returns the frame count from a SMPTE time code.
 * video.seekForward(frames) - Seeks forward the amount of frames declared by the frames parameter. Defaults to 1 frame.
 * video.seekBackward(frames) - Seeks backward the amount of frames declared by the frames parameter. Defaults to 1 frame.
+* video.seekTo(config) - Seeks to a certain SMPTE time code, standard time code, frame, second, or millisecond in the video. config example: { SMPTE: '00:01:12:22' }, { time: '00:01:12' },  { frame: 1750 }, { seconds: 72 }, { milliseconds: 72916 }
