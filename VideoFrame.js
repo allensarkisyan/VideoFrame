@@ -1,6 +1,6 @@
 /** @preserve
 VideoFrame: HTML5 Video - SMTPE Time Code capturing and Frame Seeking API
-@version 0.2.0
+@version 0.2.1
 @author Allen Sarkisyan
 @copyright (c) 2013 Allen Sarkisyan 
 @license Released under the Open Source MIT License
@@ -152,14 +152,15 @@ VideoFrame.prototype.toSeconds = function(SMPTE) {
 };
 
 /**
- * Converts a SMPTE Time code to Milliseconds
+ * Converts a SMPTE Time code, or standard time code to Milliseconds
  * 
- * @param  {String} SMPTE - OPTIONAL: a SMPTE time code in HH:MM:SS:FF format
+ * @param  {String} SMPTE OPTIONAL: a SMPTE time code in HH:MM:SS:FF format,
+ * or standard time code in HH:MM:SS format.
  * @return {Number} Returns the Millisecond count of a SMPTE Time code
  */
 VideoFrame.prototype.toMilliseconds = function(SMPTE) {
 	var frames = (!SMPTE) ? Number(this.toSMPTE().split(':')[3]) : Number(SMPTE.split(':')[3]);
-	var milliseconds = (1000 / this.frameRate) * frames;
+	var milliseconds = (1000 / this.frameRate) * (isNaN(frames) ? 0 : frames);
 	return Math.floor(((this.toSeconds(SMPTE) * 1000) + milliseconds));
 };
 
