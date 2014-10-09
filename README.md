@@ -1,4 +1,4 @@
-## VideoFrame - HTML5 Video - SMTPE Time Code capturing and Frame Seeking API - Version: 0.2.2
+## VideoFrame - HTML5 Video - SMPTE Time Code capturing and Frame Seeking API - Version: 0.2.2
 ### (c) 2012 Allen Sarkisyan - Released under the Open Source MIT License
 
 Contributors
