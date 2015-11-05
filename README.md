@@ -7,6 +7,10 @@ Contributors
 * Paige Raynes - Product Development
 * Dan Jacinto - Video Asset Quality Analyst
 
+Install
+==========
+`bower install VideoFrame`
+
 License
 ==========
 Permission is hereby granted, free of charge, to any person obtaining a copy
