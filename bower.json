@@ -1,0 +1,24 @@
+{
+  "name": "VideoFrame",
+  "main": "VideoFrame.js",
+  "homepage": "https://github.com/X3TechnologyGroup/VideoFrame",
+  "authors": [
+    "Allen Sarkisyan",
+    "Paige Raynes",
+    "Dan Jacinto"
+  ],
+  "description": "HTML5 Video SMPTE Time Code and Frame Seeking API",
+  "keywords": [
+    "video",
+    "html5",
+    "SMPTE"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
