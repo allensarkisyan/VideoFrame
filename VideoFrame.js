@@ -1,30 +1,30 @@
 /** @preserve
-VideoFrame: HTML5 Video - SMTPE Time Code capturing and Frame Seeking API
-@version 0.2.2
-@author Allen Sarkisyan
-@copyright (c) 2013 Allen Sarkisyan 
-@license Released under the Open Source MIT License
+ VideoFrame: HTML5 Video - SMTPE Time Code capturing and Frame Seeking API
+ @version 0.2.2
+ @author Allen Sarkisyan
+ @copyright (c) 2013 Allen Sarkisyan
+ @license Released under the Open Source MIT License
 
-Contributors:
-Allen Sarkisyan - Lead engineer
-Paige Raynes - Product Development
-Dan Jacinto - Video Asset Quality Analyst
+ Contributors:
+ Allen Sarkisyan - Lead engineer
+ Paige Raynes - Product Development
+ Dan Jacinto - Video Asset Quality Analyst
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, and/or distribute copies of the
-Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+ of this software and associated documentation files (the "Software"), to deal
+ in the Software without restriction, including without limitation the rights
+ to use, copy, modify, merge, publish, and/or distribute copies of the
+ Software, and to permit persons to whom the Software is furnished to do so,
+ subject to the following conditions:
 
-- The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-- Attribution must be credited to the original authors in derivative works.
+ - The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+ - Attribution must be credited to the original authors in derivative works.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-*/
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+ OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+ */
 
 /**
  * @class
@@ -36,6 +36,23 @@ var VideoFrame = function(options) {
 	this.obj = options || {};
 	this.frameRate = this.obj.frameRate || 24;
 	this.video = document.getElementById(this.obj.id) || document.getElementsByTagName('video')[0];
+	this.intervalRewind = null;
+
+	this.video.addEventListener('play', function() {
+		this.playbackRate = 1.0;
+		clearInterval(this.intervalRewind);
+	});
+
+	this.video.addEventListener('ended', function() {
+		this.playbackRate = 1.0;
+		this.currentTime = 0.0;
+		clearInterval(this.intervalRewind);
+	});
+
+	this.video.addEventListener('pause', function() {
+		this.playbackRate = 1.0;
+		clearInterval(this.intervalRewind);
+	});
 };
 
 /**
@@ -66,7 +83,7 @@ var FrameRates = {
 VideoFrame.prototype = {
 	/**
 	 * Returns the current frame number
-	 * 
+	 *
 	 * @return {Number} - Frame number in video
 	 */
 	get : function() {
@@ -74,7 +91,7 @@ VideoFrame.prototype = {
 	},
 	/**
 	 * Event listener for handling callback execution at double the current frame rate interval
-	 * 
+	 *
 	 * @param  {String} format - Accepted formats are: SMPTE, time, frame
 	 * @param  {Number} tick - Number to set the interval by.
 	 * @return {Number} Returns a value at a set interval
@@ -100,7 +117,7 @@ VideoFrame.prototype = {
 /**
  * Returns the current time code in the video in HH:MM:SS format
  * - used internally for conversion to SMPTE format.
- * 
+ *
  * @param  {Number} frames - The current time in the video
  * @return {String} Returns the time code in the video
  */
@@ -122,7 +139,7 @@ VideoFrame.prototype.toTime = function(frames) {
 /**
  * Returns the current SMPTE Time code in the video.
  * - Can be used as a conversion utility.
- * 
+ *
  * @param  {Number} frame - OPTIONAL: Frame number for conversion to it's equivalent SMPTE Time code.
  * @return {String} Returns a SMPTE Time code in HH:MM:SS:FF format
  */
@@ -141,7 +158,7 @@ VideoFrame.prototype.toSMPTE = function(frame) {
 
 /**
  * Converts a SMPTE Time code to Seconds
- * 
+ *
  * @param  {String} SMPTE - a SMPTE time code in HH:MM:SS:FF format
  * @return {Number} Returns the Second count of a SMPTE Time code
  */
@@ -153,7 +170,7 @@ VideoFrame.prototype.toSeconds = function(SMPTE) {
 
 /**
  * Converts a SMPTE Time code, or standard time code to Milliseconds
- * 
+ *
  * @param  {String} SMPTE OPTIONAL: a SMPTE time code in HH:MM:SS:FF format,
  * or standard time code in HH:MM:SS format.
  * @return {Number} Returns the Millisecond count of a SMPTE Time code
@@ -166,7 +183,7 @@ VideoFrame.prototype.toMilliseconds = function(SMPTE) {
 
 /**
  * Converts a SMPTE Time code to it's equivalent frame number
- * 
+ *
  * @param  {String} SMPTE - OPTIONAL: a SMPTE time code in HH:MM:SS:FF format
  * @return {Number} Returns the long running video frame number
  */
@@ -182,7 +199,7 @@ VideoFrame.prototype.toFrames = function(SMPTE) {
 
 /**
  * Private - seek method used internally for the seeking functionality.
- * 
+ *
  * @param  {String} direction - Accepted Values are: forward, backward
  * @param  {Number} frames - Number of frames to seek by.
  */
@@ -195,7 +212,7 @@ VideoFrame.prototype.__seek = function(direction, frames) {
 
 /**
  * Seeks forward [X] amount of frames in the video.
- * 
+ *
  * @param  {Number} frames - Number of frames to seek by.
  * @param  {Function} callback - Callback function to execute once seeking is complete.
  */
@@ -207,7 +224,7 @@ VideoFrame.prototype.seekForward = function(frames, callback) {
 
 /**
  * Seeks backward [X] amount of frames in the video.
- * 
+ *
  * @param  {Number} frames - Number of frames to seek by.
  * @param  {Function} callback - Callback function to execute once seeking is complete.
  */
@@ -220,7 +237,7 @@ VideoFrame.prototype.seekBackward = function(frames, callback) {
 /**
  * For seeking to a certain SMPTE time code, standard time code, frame, second, or millisecond in the video.
  * - Was previously deemed not feasible. Veni, vidi, vici.
- *  
+ *
  * @param  {Object} option - Configuration Object for seeking allowed keys are SMPTE, time, frame, seconds, and milliseconds
  * example: { SMPTE: '00:01:12:22' }, { time: '00:01:12' },  { frame: 1750 }, { seconds: 72 }, { milliseconds: 72916 }
  */
@@ -248,8 +265,53 @@ VideoFrame.prototype.seekTo = function(config) {
 			seekTime = ((Number(obj[option]) / 1000) + 0.001);
 			break;
 	}
-	
+
 	if (!isNaN(seekTime)) {
 		this.video.currentTime = seekTime;
 	}
+};
+
+/**
+ * Rewind the video
+ *
+ * @param rewindSpeed
+ */
+VideoFrame.prototype.rewind = function(rewindSpeed) {
+	clearInterval(this.intervalRewind);
+	var video = this;
+	var startSystemTime = new Date().getTime();
+	var startVideoTime = video.video.currentTime;
+
+	this.intervalRewind = setInterval(function() {
+		video.video.playbackRate = 1.0;
+
+		if(video.video.currentTime == 0) {
+			clearInterval(this.intervalRewind);
+			video.video.pause();
+		}
+		else {
+			var elapsed = new Date().getTime() - startSystemTime;
+			video.video.currentTime = Math.max(startVideoTime - elapsed * rewindSpeed / 1000.0, 0);
+
+			var format = 'SMPTE';
+			var frameCount = ((format === 'SMPTE') ? video.toSMPTE() : ((format === 'time') ? video.toTime() : video.get()));
+			var frame = video.toFrames(frameCount);
+
+			if(video.obj.callback) {
+				video.obj.callback(frame, format);
+			}
+		}
+	}, 30);
+}
+
+/**
+ * Stop the video
+ */
+VideoFrame.prototype.stop = function() {
+	var video = this;
+
+	video.stopListen();
+	video.video.pause();
+	video.seekForward(1);
+	clearInterval(video.intervalRewind);
 };
