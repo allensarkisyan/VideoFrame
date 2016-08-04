@@ -28,6 +28,7 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 // Logic for determning <script>/module taken from Q project (https://github.com/kriskowal/q)
 (function (definition) {
+    "use strict";
     
     // This file will function properly as a <script> tag, or a module
     // using CommonJS and NodeJS or RequireJS module formats.  In
@@ -81,6 +82,7 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
     }
 
 })(function() {
+    "use strict";
     
     /**
      * @class
@@ -88,7 +90,7 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
      * @param {Object} options - Configuration object for initialization.
      */
     var VideoFrame = function(options) {
-        if (this === window) { return new VideoFrame(options); }
+        if (!this || this === window) { return new VideoFrame(options); }
         this.obj = options || {};
         this.frameRate = this.obj.frameRate || 24;
         this.video = document.getElementById(this.obj.id) || document.getElementsByTagName('video')[0];
