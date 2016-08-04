@@ -26,6 +26,62 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTIO
 OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
+// Logic for determning <script>/module taken from Q project (https://github.com/kriskowal/q)
+(function (definition) {
+    
+    // This file will function properly as a <script> tag, or a module
+    // using CommonJS and NodeJS or RequireJS module formats.  In
+    // Common/Node/RequireJS, the module exports the VideoFrame constructor and when
+    // executed as a simple <script>, it creates the VideoFrame constructor as a global.
+ 
+    // Montage Require
+    if (typeof bootstrap === "function") {
+        bootstrap("promise", definition);
+ 
+    // CommonJS
+    } else if (typeof exports === "object" && typeof module === "object") {
+        module.exports = definition();
+ 
+    // RequireJS
+    } else if (typeof define === "function" && define.amd) {
+        define(definition);
+ 
+    // SES (Secure EcmaScript)
+    } else if (typeof ses !== "undefined") {
+        if (!ses.ok()) {
+            return;
+        } else {
+            ses.makeVideoFrame = definition;
+        }
+ 
+    // <script>
+    } else if (typeof window !== "undefined" || typeof self !== "undefined") {
+        // Prefer window over self for add-on scripts. Use self for
+        // non-windowed contexts.
+        var global = typeof window !== "undefined" ? window : self;
+ 
+        // Get the `window` object, save the previous 'VideoFrame' and 'FrameRates' globals
+        // and initialize VideoFrame as a global.
+        var previousVideoFrame = global.VideoFrame,
+            previousFrameRates = global.FrameRates,
+            def = definition();
+        global.VideoFrame = def.VideoFrame;
+        global.FrameRates = def.FrameRates;
+ 
+        // Add a noConflict function so VideoFrame can be removed from the
+        // global namespace.
+        global.VideoFrame.noConflict = function () {
+            global.VideoFrame = previousVideoFrame;
+            global.FrameRates = previousFrameRates;
+            return this;
+        };
+ 
+    } else {
+        throw new Error("Can't export constructor; this environment was not anticipated by VideoFrame.");
+    }
+ 
+})(function() {
+    
 /**
  * @class
  * @classdesc Main VideoFrame Implementation.
@@ -253,3 +309,9 @@ VideoFrame.prototype.seekTo = function(config) {
 		this.video.currentTime = seekTime;
 	}
 };
+    
+    return {
+        VideoFrame: VideoFrame,
+        FrameRates: FrameRates
+    };
+});
